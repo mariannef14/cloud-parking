@@ -1,14 +1,9 @@
-package com.dio.cloudparking.model;
+package com.dio.cloudparking.dto;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+public class EstacionamentoDTO {
 
-@Entity
-public class Estacionamento {
-    
-    @Id
     private String id;
     private String licenca;
     private String estado;
@@ -19,16 +14,6 @@ public class Estacionamento {
     private Double conta;
 
 
-    public Estacionamento(){}
-
-    public Estacionamento(String id, String licenca, String estado, String modelo, String cor){
-        this.id = id;
-        this.licenca = licenca;
-        this.estado = estado;
-        this.modelo = modelo;
-        this.cor = cor;
-    }
-
     public String getId() {
         return id;
     }
@@ -36,7 +21,7 @@ public class Estacionamento {
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public String getLicenca() {
         return licenca;
     }
@@ -44,7 +29,7 @@ public class Estacionamento {
     public void setLicenca(String licenca) {
         this.licenca = licenca;
     }
-
+    
     public String getEstado() {
         return estado;
     }
@@ -85,11 +70,11 @@ public class Estacionamento {
         this.dataSaida = dataSaida;
     }
 
-    public Double getConta(){
+    public Double getConta() {
         return conta;
     }
-
-    public void setConta(Double conta){
+    
+    public void setConta(Double conta) {
         this.conta = conta;
     }
 

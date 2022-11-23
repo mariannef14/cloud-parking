@@ -1,27 +1,82 @@
 package com.dio.cloudparking.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dio.cloudparking.controller.mapper.EstacionamentoMapper;
+import com.dio.cloudparking.dto.EstacionamentoCreateDTO;
+import com.dio.cloudparking.dto.EstacionamentoDTO;
 import com.dio.cloudparking.model.Estacionamento;
+import com.dio.cloudparking.service.EstacionamentoService;
 
 @RestController
-@RequestMapping("estacionamento")
+@RequestMapping("/estacionamento")
 public class EstacionamentoController {
     
-    @GetMapping
-    public List<Estacionamento> findAll(){
-        Estacionamento c1 = new Estacionamento("1", "DMS-1111", "PE", "HB20", "Prata");
-        Estacionamento c2 = new Estacionamento("2", "AJN-1407", "SP", "Renegade", "Preto");
+    private final EstacionamentoMapper estacionamentoMapper;
+    private final EstacionamentoService estacionamentoService;
+    
+    public EstacionamentoController(EstacionamentoMapper estacionamentoMapper, EstacionamentoService estacionamentoService){
+        this.estacionamentoMapper = estacionamentoMapper;
+        this.estacionamentoService = estacionamentoService;
+    }
 
-        List<Estacionamento> carros = new ArrayList<>();
-        carros.add(c1);
-        carros.add(c2);
 
-        return carros;
+    @GetMapping("/")
+    public ResponseEntity<List<EstacionamentoDTO>> buscarTodos(){
+        
+        List<Estacionamento> estacionamentos = estacionamentoService.buscarTodos();
+
+        return ResponseEntity.ok(estacionamentoMapper.paraEstacionamentoDTOLista(estacionamentos));
+    }
+
+    @GetMapping("/buscarEstacionamento/{id}")
+    public ResponseEntity<EstacionamentoDTO> buscarPorId(@PathVariable String id){
+        Estacionamento estacionamento = estacionamentoService.buscarPorId(id);
+
+        return ResponseEntity.ok(estacionamentoMapper.paraEstacionamentoDTO(estacionamento));
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<EstacionamentoDTO> criar(@RequestBody EstacionamentoCreateDTO dto){
+
+        Estacionamento estacionamento = estacionamentoMapper.paraCriarEstacionamento(dto);
+        estacionamento = estacionamentoService.criar(estacionamento); 
+
+       return ResponseEntity.status(HttpStatus.CREATED).body(estacionamentoMapper.paraEstacionamentoDTO(estacionamento));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EstacionamentoDTO> atualizar(@PathVariable String id, @RequestBody EstacionamentoCreateDTO estacionamentoDto) {
+
+        Estacionamento novoEstacionamento = estacionamentoMapper.paraCriarEstacionamento(estacionamentoDto);
+        Estacionamento estacionamento = estacionamentoService.atualizar(id, novoEstacionamento);
+
+       return ResponseEntity.ok(estacionamentoMapper.paraEstacionamentoDTO(estacionamento));
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity deletar(@PathVariable String id) {
+
+        estacionamentoService.deletar(id);
+        
+        return ResponseEntity.noContent().build();
+    }
+
+    public ResponseEntity<EstacionamentoDTO> sair(String id){
+
+        Estacionamento estacionamento = estacionamentoService.verificacaoSaida(id);
+        
+        return ResponseEntity.ok(estacionamentoMapper.paraEstacionamentoDTO(estacionamento));
     }
 }
