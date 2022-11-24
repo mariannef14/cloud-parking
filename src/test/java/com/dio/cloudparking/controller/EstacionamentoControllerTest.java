@@ -27,6 +27,7 @@ public class EstacionamentoControllerTest {
     void quandoEncontrarTodosVerifiqueResultado(){
         
         RestAssured.given()
+        .auth().basic("user", "teste123")
         .when()
         .get("/estacionamento/")
         .then()
@@ -38,6 +39,7 @@ public class EstacionamentoControllerTest {
     void quandoEncontrarEstacionamentoVerificaResultado(){
 
         RestAssured.given()
+        .auth().basic("user", "teste123")
         .when()
         .get("/estacionamento/buscarEstacionamento/{id}", "0cb3b694e76e4ceea916b28a8cdb0274")
         .then()
@@ -52,22 +54,23 @@ public class EstacionamentoControllerTest {
     void quandoCriarEntaoVerifiqueECriado(){
 
         EstacionamentoCreateDTO estacionamento = new EstacionamentoCreateDTO();
-        estacionamento.setLicenca("YRH-8745");
-        estacionamento.setModelo("RENEGADE");
+        estacionamento.setLicenca("KTB-1907");
+        estacionamento.setModelo("VOYAGE");
         estacionamento.setCor("Preto");
-        estacionamento.setEstado("RJ");
+        estacionamento.setEstado("SP");
 
         RestAssured.given()
+        .auth().basic("user", "teste123")
         .when()
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .body(estacionamento)
         .post("/estacionamento/add")
         .then()
         .statusCode(HttpStatus.CREATED.value())
-        .body("licenca", Matchers.equalTo("YRH-8745"))
-        .body("modelo", Matchers.equalTo("RENEGADE"))
+        .body("licenca", Matchers.equalTo("KTB-1907"))
+        .body("modelo", Matchers.equalTo("VOYAGE"))
         .body("cor", Matchers.equalTo("Preto"))
-        .body("estado", Matchers.equalTo("RJ"));
+        .body("estado", Matchers.equalTo("SP"));
 
     }
 
@@ -81,6 +84,7 @@ public class EstacionamentoControllerTest {
         novoEstacionamento.setEstado("PB");
 
         RestAssured.given()
+        .auth().basic("user", "teste123")
         .when()
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .body(novoEstacionamento)
@@ -98,6 +102,7 @@ public class EstacionamentoControllerTest {
     @Test
     void quandoDeletarVerificarResultado(){
         RestAssured.given()
+        .auth().basic("user", "teste123")
         .when()
         .delete("/estacionamento/deletar/{id}", "6135427b8ced4ae8b7bdf3ff8f1ccd5c")
         .then()
