@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import com.dio.cloudparking.controller.mapper.EstacionamentoMapper;
 import com.dio.cloudparking.dto.EstacionamentoCreateDTO;
 import com.dio.cloudparking.dto.EstacionamentoDTO;
@@ -25,7 +27,7 @@ public class EstacionamentoController {
     
     private final EstacionamentoMapper estacionamentoMapper;
     private final EstacionamentoService estacionamentoService;
-    
+
     public EstacionamentoController(EstacionamentoMapper estacionamentoMapper, EstacionamentoService estacionamentoService){
         this.estacionamentoMapper = estacionamentoMapper;
         this.estacionamentoService = estacionamentoService;
@@ -33,6 +35,7 @@ public class EstacionamentoController {
 
 
     @GetMapping("/")
+    @Operation(summary = "busca todos os estacionamentos")
     public ResponseEntity<List<EstacionamentoDTO>> buscarTodos(){
         
         List<Estacionamento> estacionamentos = estacionamentoService.buscarTodos();
@@ -41,6 +44,7 @@ public class EstacionamentoController {
     }
 
     @GetMapping("/buscarEstacionamento/{id}")
+    @Operation(summary = "busca um estacionamento pelo id")
     public ResponseEntity<EstacionamentoDTO> buscarPorId(@PathVariable String id){
         Estacionamento estacionamento = estacionamentoService.buscarPorId(id);
 
@@ -48,6 +52,7 @@ public class EstacionamentoController {
     }
 
     @PostMapping("/add")
+    @Operation(summary = "adiciona um estacionamento")
     public ResponseEntity<EstacionamentoDTO> criar(@RequestBody EstacionamentoCreateDTO dto){
 
         Estacionamento estacionamento = estacionamentoMapper.paraCriarEstacionamento(dto);
@@ -57,6 +62,7 @@ public class EstacionamentoController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "atualiza um estacionamento pelo id")
     public ResponseEntity<EstacionamentoDTO> atualizar(@PathVariable String id, @RequestBody EstacionamentoCreateDTO estacionamentoDto) {
 
         Estacionamento novoEstacionamento = estacionamentoMapper.paraCriarEstacionamento(estacionamentoDto);
@@ -66,6 +72,7 @@ public class EstacionamentoController {
     }
 
     @DeleteMapping("/deletar/{id}")
+    @Operation(summary = "deleta um estacionamento pelo id")
     public ResponseEntity deletar(@PathVariable String id) {
 
         estacionamentoService.deletar(id);
@@ -73,6 +80,8 @@ public class EstacionamentoController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/{id}/sair")
+    @Operation(summary = "faz o checkout")
     public ResponseEntity<EstacionamentoDTO> sair(String id){
 
         Estacionamento estacionamento = estacionamentoService.verificacaoSaida(id);

@@ -1,34 +1,28 @@
 package com.dio.cloudparking.config;
 
-/*import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+
 
 @Component
-@EnableSwagger2
 public class SwaggerConfig {
     
-    @Bean
-    public Docket detalhesApi(){
+  @Bean
+  public OpenAPI customOpenAPI() {
 
-        return new Docket(DocumentationType.SWAGGER_2)
-        .select()
-        .apis(RequestHandlerSelectors.basePackage("com.dio.cloudparking"))
-        .build()
-        .apiInfo(apiInfo());
-    }
-    private ApiInfo apiInfo(){
+    return new OpenAPI()
+        .info(apiInfo());
 
-        return new ApiInfoBuilder()
-        .title("Cloud Parking")
-        .description("Spring Boot REST API for Parking")
-        .version("1.1.0")
-        .build();
-    }
-}*/
+  }
+
+  private Info apiInfo(){
+      return new Info()
+      .title("Cloud Parking")
+      .description("Spring Boot REST API para Estacionamento")
+      .version("1.1.0");
+  }
+ 
+}
