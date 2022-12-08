@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import com.dio.cloudparking.controller.mapper.EstacionamentoMapper;
 import com.dio.cloudparking.dto.EstacionamentoCreateDTO;
@@ -23,6 +24,7 @@ import com.dio.cloudparking.service.EstacionamentoService;
 
 @RestController
 @RequestMapping("/estacionamento")
+@SecurityRequirement(name = "api_security")
 public class EstacionamentoController {
     
     private final EstacionamentoMapper estacionamentoMapper;
