@@ -6,5 +6,4 @@ O projeto se trata de uma API desenvolvida para controlar um estacionamento de v
 Foram adicionados ao projeto:
 <ul>
     <li>Testes para o CRUD com o objetivo de verificar se o resultado fornecido pela aplicação corresponde ao esperado</li>
-    <li>Open API no lugar do Swagger.</li>
 </ul>
